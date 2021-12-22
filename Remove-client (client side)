@@ -1,0 +1,28 @@
+# This variable points to IPSec server's hostname
+:global Hostname "************.sn.mynetname.net"
+:global PeerName "client4"
+
+:log warning " ============== Starting script ============== "
+
+:log info " ============== Remove client side certificate ============== "
+/certificate remove [find name~"$DNSaddress"]
+
+/ip ipsec peer 
+remove [find name="peer $DNSaddress"]
+
+/ip ipsec profile
+remove [find name="profile $DNSaddress"]
+
+/ip ipsec proposal 
+remove [find name="proposal $DNSaddress"]
+
+/ip ipsec policy 
+remove [find comment="policy template $DNSaddress"]
+
+/ip ipsec identity 
+remove [find policy-template-group~"group $DNSaddress"]
+
+/ip ipsec policy group 
+remove [find name~"$DNSaddress"]
+
+:log warn " ============== Script finished ============== "
