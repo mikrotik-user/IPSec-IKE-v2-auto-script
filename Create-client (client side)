@@ -1,0 +1,38 @@
+# This variable points to IPSec server's hostname
+:global Hostname "************.sn.mynetname.net"
+:global PeerName "client4"
+:global Password "keepinsecret"
+
+:log warning " ============== Starting script ============== "
+:log info " ============== Client side certificates CA and client ============== "
+/certificate import file-name="cert_export_$newClient@$DNSaddress.p12" passphrase=$Password
+#/certificate import file-name="cert_export_ca.$DNSaddress.crt" passphrase=$Password
+:log info " ============== Rename installed SSL certificates CA and client ============== "
+
+:log info " ============== Setting up new IPSec peer profile (phase 1) ============== "
+/ip ipsec profile
+add dh-group=modp2048,modp1536,modp1024 enc-algorithm=aes-256,aes-192,aes-128 hash-algorithm=sha256 name="profile $DNSaddress" nat-traversal=yes proposal-check=obey
+
+:log info " ============== Adding new client IPSec peer (initiator) ============== "
+/ip ipsec peer 
+add address=$DNSaddress exchange-mode=ike2 name="peer $DNSaddress" profile="profile $DNSaddress"
+
+:log info " ============== Setting up new IPSec proposal (phase 2) ============== "
+/ip ipsec proposal 
+add auth-algorithms=sha512,sha256,sha1 enc-algorithms=aes-256-cbc,aes-256-ctr,aes-256-gcm,aes-192-ctr,aes-192-gcm,aes-128-cbc,aes-128-ctr,aes-128-gcm \
+lifetime=8h name="proposal $DNSaddress" pfs-group=none
+
+:log info " ============== Adding new IPSec policy group ============== "
+/ip ipsec policy group 
+add name="group $DNSaddress"
+
+:log info " ============== Adding new IPSec policy template ============== "
+/ip ipsec policy 
+add comment="policy template $DNSaddress" dst-address="0.0.0.0/0" group="group $DNSaddress" proposal="proposal $DNSaddress" src-address=10.0.88.0/24 template=yes
+
+:log info " ============== Carefully assembling client’s IPSec identity ============== "
+/ip ipsec identity 
+add auth-method=digital-signature certificate="cert_export_$newClient@$DNSaddress.p12_0" generate-policy=port-strict mode-config=request-only\
+my-id="user-fqdn:$newClient@$DNSaddress" peer="peer $DNSaddress" policy-template-group="group $DNSaddress" remote-id="fqdn:$DNSaddress"
+
+:log warning " ============== Script finished ============== "
