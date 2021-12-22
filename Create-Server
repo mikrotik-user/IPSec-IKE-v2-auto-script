@@ -2,7 +2,7 @@
 # If this variable is not assigned manually, then it'll be automatically calculateg using "/ip cloud"
 # Example:
 # :local Hostname "my.domain.com"
-:local my.domain.com 
+:local Hostname "my.domain.com"
 
 # IPaddress - IP address of given Hostname variable.
 # If this variable is not assigned manually, then it'll be automatically resolved using ":resolve $Hostname".
