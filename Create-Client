@@ -2,7 +2,7 @@
 # If this variable is not assigned manually, then it'll be automatically calculateg using "/ip cloud"
 # Example:
 # :local Hostname "my.domain.com"
-:local Hostname
+:local Hostname "my.domain.com"
 
 :local PeerName "UserName"
 :local Password "KeepInSecret"
