@@ -1,12 +1,11 @@
 # This variable points to IPSec server's hostname
-:global Hostname "************.sn.mynetname.net"
-:global PeerName "client4"
-:global Password "keepinsecret"
+:global Hostname "**********.sn.mynetname.net"
+:global PeerName "UserName"
+:global Password "KeepInSecret"
 
 :log warning " ============== Starting script ============== "
 :log info " ============== Client side certificates CA and client ============== "
 /certificate import file-name="cert_export_$newClient@$DNSaddress.p12" passphrase=$Password
-#/certificate import file-name="cert_export_ca.$DNSaddress.crt" passphrase=$Password
 :log info " ============== Rename installed SSL certificates CA and client ============== "
 
 :log info " ============== Setting up new IPSec peer profile (phase 1) ============== "
