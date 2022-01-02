@@ -2,7 +2,7 @@
 These scripts create\remove IPsec IKE v2 server and\or peers. 
 
 1. "Create-Server" is used to create server and server's CA certificate on mikrotik router.
-2. "Create-Client" is uset to create client and client's certificate on mikrotik router.
+2. "Create-Client" is used to create client and client's certificate on mikrotik router.
 3. "Create-client (client side)" is used on client side mikrotik to create peer.
 4. "Remove-client (client side)" is used on client side mikrotik to remove peer.
 5. "mikrotik-to-strongswan" is used on client side mikrotik to create peer working with strongswan IPSec ikev2 server (https://github.com/hwdsl2/setup-ipsec-vpn)
