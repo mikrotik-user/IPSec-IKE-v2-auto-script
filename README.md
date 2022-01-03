@@ -10,6 +10,18 @@
 
 **HOW TO...**
 
+**How to setup a IKE v2 server and create CA certificate.**
+
+to do...
+
+**How to create a client and create client's certificate.**
+
+to do...
+
+**How to setup a peer on client mikrotik router.**
+
+to do...
+
 **How to setup strongswan client on mikrotik router.**
 1. Download "Mikrotik-to-Strongswan.rsc" on your mikrotik router (and optionally rename it to "createPeer.rsc")  
     `/tool fetch url="https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/mikrotik-to-strongswan.rsc" mode=https dst-path=createPeer.rsc`
