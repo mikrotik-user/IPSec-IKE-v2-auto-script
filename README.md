@@ -23,7 +23,7 @@ to do...
 to do...
 
 **How to setup strongswan client on mikrotik router.**
-1. Download "Mikrotik-to-Strongswan.rsc" on your mikrotik router (and optionally rename it to "createPeer.rsc")  
+1. Download "Mikrotik-to-Strongswan.rsc" on your mikrotik router  
     `/tool fetch url="https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/mikrotik-to-strongswan.rsc" mode=https dst-path=createPeer.rsc`
     Also you may download file manually and upload it to router.
 2. Import script
