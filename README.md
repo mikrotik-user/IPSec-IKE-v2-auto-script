@@ -21,7 +21,7 @@ How to setup strongswan client on mikrotik router.
 :local CertFile "vpnclient.p12"    - holds name of your client's certificate
 :local Password "passphrase"       - holds passphrase of your certificate file to import
 :local ServerAddress "11.22.33.44" - IP address of strongswan server
-4. Run script.
+4. Make sure you uploaded certificate file to you router. Run script.
      /system script run createPeer
      Or you may run it using GUI
 5. Script creates new peer and a new rollback script named "removePeer". You can use it to rollback modifications made by "createPeer"
