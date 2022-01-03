@@ -5,7 +5,7 @@
 2. _"Create-Client"_ is used to create client and client's certificate on mikrotik router.
 3. _"Create-client (client side)"_ is used on client side mikrotik to create peer.
 4. _"Remove-client (client side)"_ is used on client side mikrotik to remove peer.
-5. _"Mikrotik-to-Strongswan"_ is used on client side mikrotik to create peer working with strongswan IPSec ikev2 server (https://github.com/hwdsl2/setup-ipsec-vpn)
+5. _"Mikrotik-to-Strongswan"_ is used on client side mikrotik to create peer working with [StrongSwan IPSec ikev2 server](https://github.com/hwdsl2/setup-ipsec-vpn).
 6. _"Mikrotik-to-Strongswan.rsc"_ (with extention .rsc) is identical to _"Mikrotik-to-Strongswan"_. The difference is that this script can be imported using CLI.
 
 **HOW TO...**
