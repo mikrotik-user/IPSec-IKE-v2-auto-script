@@ -28,7 +28,7 @@ to do...
     Also you may download file manually and upload it to router.
 2. Import script
     `/import createPeer.rsc`
-    You may also copy content of [this page](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/mikrotik-to-strongswan.rsc) and paste to a newly created script using GUI.
+    You may also copy content of [this page](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/Mikrotik-to-Strongswan.rsc) and paste to a newly created script using GUI.
 3. Edit script to modify the first three variables. These are:
    - :local CertFile "vpnclient.p12"    - holds name of your client's certificate
    - :local Password "passphrase"       - holds passphrase of your certificate file to import
