@@ -1,22 +1,26 @@
 # IPSec-IKE-v2-auto-script
 **These scripts create\remove IPsec IKE v2 server and\or peers.**
 
-1. _"Create-Server"_ is used to create server and server's CA certificate on mikrotik router.
-2. _"Create-Client"_ is used to create client and client's certificate on mikrotik router.
-3. _"Create-client (client side)"_ is used on client side mikrotik to create peer.
-4. _"Remove-client (client side)"_ is used on client side mikrotik to remove peer.
-5. _"Mikrotik-to-Strongswan"_ is used on client side mikrotik to create peer working with [StrongSwan IPSec ikev2 server](https://github.com/hwdsl2/setup-ipsec-vpn).
-6. _"Mikrotik-to-Strongswan.rsc"_ (with extention .rsc) is identical to _"Mikrotik-to-Strongswan"_. The difference is that this script can be imported using CLI.
+1. _"IKEv2-server-autoscript.rsc"_ is an interactive script to create and manage IKEv2 server on mikrotik router.
+2. _"IKEv2-peer-autoscript.rsc"_ is used on client-side mikrotik to create peer.
+3. _"IKEv2-remove-peer-autoscript.rsc"_ is used on client side mikrotik to remove peer.
+4. _"Mikrotik-to-Strongswan.rsc"_ is used on client-side mikrotik to create peer working with [StrongSwan IPSec ikev2 server](https://github.com/hwdsl2/setup-ipsec-vpn).
 
 **HOW TO...**
 
-**How to setup a IKE v2 server and create CA certificate.**
-
-to do...
+**How to setup an IKE v2 server and create CA certificate.**
+1. Download [IKEv2-server-autoscript.rsc](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-server-autoscript.rsc) on your mikrotik router `/tool fetch url="https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-server-autoscript.rsc" mode=https dst-path=IKEv2-server-autoscript.rsc`. Also you may download [file](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-server-autoscript.rsc) manually and upload it to router.
+2. Import script `/import IKEv2-server-autoscript.rsc`. You may also copy content of [this page](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-server-autoscript.rsc) and paste to a newly created script using GUI.
+3. Run script via CLI. `/system script run IKEv2`
+_**IMPORTANT: Script won't work if you run it via GUI.**_
+4. Choose _**1. Install IKE v2 server**_ by typing "1"
+5. Follow instructions on CLI
 
 **How to create a client and create client's certificate.**
 
-to do...
+1. Run script via CLI. `/system script run IKEv2`
+2. Choose _**2. Create peer**_ by typing "2"
+3. Follow instructions on CLI
 
 **How to setup a peer on client mikrotik router.**
 
@@ -37,13 +41,3 @@ to do...
      `/system script run createPeer`
      Or you may run it using GUI
 5. Script creates new peer and a new rollback script named "removePeer". You can use it to rollback modifications made by "createPeer"
-
-**How does it work.**
-
-1. Add a new script on your mikrotik router (server side), give it apropriate name and set required permissions, then copy-and-paste content of "Create-Server", press "OK" to save you script. 
-2. Do the same for another script but copy-and-paste content of "Create-Client". The first script will create IPSec IKE v2 server on your mikrotik, the second script will create IPSec peer when you run it. Both scripts generate certificates end export them on a flash.
-3. Download both certificates to your PC and then upload to a mikrotik that is inteded to serve as a IPSec client. The way you transfer those two files doesnt matter.
-4. Add a new script on your mikrotik router (client side) as described in point 1 using content of "Create-client (client side)"
-5. Optionally add a script using content of "Remove-client (client side)" to remove client configuration when needed.
-6. On a server side configure scripts' variables to use proper hostname, IP address, peer name and password. Save scripts and run them sequentially. Check your log output to see if script worked with no errors.
-7. On a client side configure scripts' variables to use proper hostname, peer name and password. Save scripts and run them sequentially. Check your log output to see if script worked with no errors.
