@@ -1,12 +1,11 @@
 /system script
-add dont-require-permissions=no name=IKEv2 owner=admin policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="#\
-    \_Declare some variables and functions\r\
-    \n:local variant\r\
+add dont-require-permissions=no name=script1 owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=":\
+    local variant\r\
     \n:local Hostname\r\
     \n:local IPaddress \r\
-    \n:local Country \"DE\"\r\
-    \n:local State \"Frankfurt\"\r\
+    \n:local Country\r\
+    \n:local State\r\
     \n:local CertFile\r\
     \n:local arrayRollback [ :toarray \"\" ]\r\
     \n:local err \"false\"\r\
@@ -76,11 +75,11 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     ankfurt\"]\r\
     \n    \r\
     \n\t:put \"\\r\\nChecking if script can use given parameters\\r\\n\"\r\
-    \n\t:if ([/certificate find name=\"ca.\$Hostname\"] != \"\") do={\r\
-    \n             :put \"Error: certificate ca.\$Hostname already exists\"\r\
+    \n\t:if ([/certificate find name=\"CA.\$Hostname\"] != \"\") do={\r\
+    \n             :put \"Error: certificate CA.\$Hostname already exists\"\r\
     \n             :set err \"true\"\r\
     \n        } else {\r\
-    \n             :put \"OK: certificate name ca.\$Hostname\"\r\
+    \n             :put \"OK: certificate name CA.\$Hostname\"\r\
     \n        }\r\
     \n\r\
     \n    :if ([/certificate find name=\"\$Hostname\"] != \"\") do={\r\
@@ -100,13 +99,11 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     tname\"\r\
     \n        }\r\
     \n\r\
-    \n    :if ([/file find name=\"cert_export_ca.\$Hostname.crt\"] != \"\") do\
-    ={\r\
-    \n             :put \"Error: file cert_export_ca.\$Hostname.crt already ex\
-    ists\"\r\
+    \n    :if ([/file find name=\"CA.\$Hostname.crt\"] != \"\") do={\r\
+    \n             :put \"Error: file CA.\$Hostname.crt already exists\"\r\
     \n             :set err \"true\"\r\
     \n        } else {\r\
-    \n             :put \"OK: file name cert_export_ca.\$Hostname.crt\"\r\
+    \n             :put \"OK: file name CA.\$Hostname.crt\"\r\
     \n        }\r\
     \n\r\
     \n    :if ([/int bridge find name=\"bridge-vpn\"] != \"\") do={\r\
@@ -193,24 +190,24 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     pped by user request\"}\r\
     \n    :put \"\\r\\nGenerating CA SSL certificate\"\r\
     \n    :do {/certificate \r\
-    \n         add name=\"ca.\$Hostname\" country=\$Country state=\$State loca\
+    \n         add name=\"CA.\$Hostname\" country=\$Country state=\$State loca\
     lity=City \\\r\
-    \n         organization=\"\$Hostname\" common-name=\"ca.\$Hostname\"  subj\
-    ect-alt-name=\"DNS:ca.\$Hostname\"  \\\r\
+    \n         organization=\"\$Hostname\" common-name=\"CA.\$Hostname\"  subj\
+    ect-alt-name=\"DNS:CA.\$Hostname\"  \\\r\
     \n         key-size=4096 days-valid=3650 trusted=yes key-usage=digital-sig\
     nature,key-encipherment,data-encipherment,key-cert-sign,crl-sign\r\
     \n\t\t :set arrayRollback ( \$arrayRollback, \":do {/certificate remove [ \
-    find name=\\\"ca.\$Hostname\\\"]} on-error={} \" )\r\
+    find name=\\\"CA.\$Hostname\\\"]} on-error={} \" )\r\
     \n\t\t } on-error={\r\
-    \n             :put \"Error: Cannot add certificate ca.\$Hostname\"\r\
+    \n             :put \"Error: Cannot add certificate CA.\$Hostname\"\r\
     \n             :set err \"true\"\r\
     \n\t\t     :return \"\"\r\
     \n        }\r\
     \n\r\
     \n    :put \"Signing CA SSL certificate (Certificate Authority)\"\r\
     \n    :delay 1\r\
-    \n    :do {/certificate sign \"ca.\$Hostname\"} on-error={\r\
-    \n         :put \"Error: Cannot sign ca.\$Hostname\"\r\
+    \n    :do {/certificate sign \"CA.\$Hostname\"} on-error={\r\
+    \n         :put \"Error: Cannot sign CA.\$Hostname\"\r\
     \n         :set err \"true\"\r\
     \n\t\t :return \"\"\r\
     \n    }\r\
@@ -229,11 +226,11 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \n\t\t         :return \"\"\r\
     \n    }\r\
     \n\r\
-    \n    :put \"Signing server certificate with ca.\$Hostname\"\r\
+    \n    :put \"Signing server certificate with CA.\$Hostname\"\r\
     \n    :delay 1\r\
-    \n    :do {/certificate sign \"\$Hostname\" ca=\"ca.\$Hostname\"} on-error\
+    \n    :do {/certificate sign \"\$Hostname\" ca=\"CA.\$Hostname\"} on-error\
     ={\r\
-    \n         :put \"Cannot sign \$Hostname with ca.\$Hostname\"\r\
+    \n         :put \"Cannot sign \$Hostname with CA.\$Hostname\"\r\
     \n         :set err \"true\"\r\
     \n\t\t :return \"\"\r\
     \n    }\r\
@@ -253,11 +250,10 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \n\t\t         :return \"\"\r\
     \n    }\r\
     \n\r\
-    \n    :put \"Exporting CA certificate to file cert_export_ca.\$Hostname\"\
-    \r\
-    \n    :do {/certificate export-certificate \"ca.\$Hostname\" type=pem} on-\
-    error={\r\
-    \n         :put \"Cannot export-certificate ca.\$Hostname\"\r\
+    \n    :put \"Exporting CA certificate to file CA.\$Hostname\"\r\
+    \n    :do {/certificate export-certificate \"CA.\$Hostname\" type=pem file\
+    -name=\"CA.\$Hostname\"} on-error={\r\
+    \n         :put \"Cannot export-certificate CA.\$Hostname\"\r\
     \n         :set err \"true\"\r\
     \n\t\t :return \"\"\r\
     \n    }\r\
@@ -377,7 +373,7 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \n\t:set arrayRollback ( \$arrayRollback, \":local inputFunc do={:put \\\$\
     1;:return}\")\r\
     \n\t:set arrayRollback ( \$arrayRollback, \":put \\\"This script will remo\
-    ve IPSec IKEv2\\\" \" )\r\
+    ve IPSec IKEv2. Make sure you already removed existing peers.\\\" \" )\r\
     \n\t:for x from=[:len \$arrayRollback] to=0 step=-1 do={\r\
     \n\t     :set ln [:pick \$arrayRollback \$x] \r\
     \n\t\t :if ([:len \$ln]!=0) do={:set scr (\$scr.\"\\r\\n\".\$ln)}\r\
@@ -438,19 +434,17 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \n        } else {\r\
     \n             :put \"OK: template ~client-template@\$Hostname\"\r\
     \n        }\r\
-    \n\t:if ([/certificate find name=\"ca.\$Hostname\"] = \"\") do={\r\
-    \n             :put \"Error: there's no ca.\$Hostname certificate\"\r\
+    \n\t:if ([/certificate find name=\"CA.\$Hostname\"] = \"\") do={\r\
+    \n             :put \"Error: there's no CA.\$Hostname certificate\"\r\
     \n             :set err \"true\"\r\
     \n        } else {\r\
-    \n             :put \"OK: ca.\$Hostname certificate\"\r\
+    \n             :put \"OK: CA.\$Hostname certificate\"\r\
     \n        }\r\
-    \n    :if ([/file find name=\"cert_export_\$PeerName@\$Hostname.crt\"] != \
-    \"\") do={\r\
-    \n             :put \"Error: file cert_export_ca.\$Hostname.crt already ex\
-    ists\"\r\
+    \n    :if ([/file find name=\"\$PeerName@\$Hostname.crt\"] != \"\") do={\r\
+    \n             :put \"Error: file CA.\$Hostname.crt already exists\"\r\
     \n             :set err \"true\"\r\
     \n        } else {\r\
-    \n             :put \"OK: file name cert_export_ca.\$Hostname.crt\"\r\
+    \n             :put \"OK: file name CA.\$Hostname.crt\"\r\
     \n        }\r\
     \n\t:if (\$err = \"true\") do={:error \"\\r\\nPrecheck failed\"} else={:pu\
     t \"\\r\\nPrecheck OK\"}\r\
@@ -474,8 +468,8 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     stname certificate\"\r\
     \n             :set err \"true\"\r\
     \n        }    \r\
-    \n\t:put \"Signing client certificate with ca.\$Hostname\"\r\
-    \n    :do {/certificate sign \"\$PeerName@\$Hostname\" ca=\"ca.\$Hostname\
+    \n\t:put \"Signing client certificate with CA.\$Hostname\"\r\
+    \n    :do {/certificate sign \"\$PeerName@\$Hostname\" ca=\"CA.\$Hostname\
     \" } on-error={\r\
     \n             :put \"Script error: cannot sign client certificate \$PeerN\
     ame@\$Hostname\"\r\
@@ -484,7 +478,8 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \n    :delay 1\r\
     \n\t:put (\"Exporting client certificate and private key\")\t\t\r\
     \n    :do {/certificate export-certificate \"\$PeerName@\$Hostname\" type=\
-    pkcs12 export-passphrase=\"\$Password\"} on-error={\r\
+    pkcs12 export-passphrase=\"\$Password\" file-name=\"\$PeerName@\$Hostname\
+    \"} on-error={\r\
     \n             :put \"Script error: cannot create export-certificate \$Pee\
     rName@\$Hostname\"\r\
     \n             :set err \"true\"\r\
@@ -569,8 +564,6 @@ add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     \"]} on-error={}\r\
     \n\t}\r\
     \n:if (variant = 4) do={\r\
-    \n    :if ([\$inputFunc \"Remove IKE v2 server\? [y/n]\"]=\"n\") do={:erro\
-    r \"Script stopped by user request\"}\r\
     \n\t:put \"\\r\\nChecking if script can use given parameters\\r\\n\"\r\
     \n\t:if ([/system script find name=\"IKEv2-rollback\"] = \"\") do={\r\
     \n             :put \"Error: cannot find rollback script IKEv2-rollback\"\
