@@ -16,8 +16,7 @@ _**IMPORTANT: Script won't work if you run it via GUI.**_
 4. Choose _**1. Install IKE v2 server**_ by typing "1"
 5. Follow instructions on CLI
 
-**How to create a client and create client's certificate.**
-
+**How to create a client and create client's certificate. (Server-side)**
 1. Run script via CLI. `/system script run IKEv2`
 2. Choose _**2. Create peer**_ by typing "2"
 3. Follow instructions on CLI
