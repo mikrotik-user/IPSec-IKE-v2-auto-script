@@ -21,9 +21,13 @@ _**IMPORTANT: Script won't work if you run it via GUI.**_
 2. Choose _**2. Create peer**_ by typing "2"
 3. Follow instructions on CLI
 
-**How to setup a peer on client mikrotik router.**
-
-to do...
+**How to setup a peer on client mikrotik router. (Peer-side)**
+1. Download [IKEv2-peer-autoscript.rsc](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-peer-autoscript.rsc) on your mikrotik router `/tool fetch url="https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-peer-autoscript.rsc" mode=https dst-path=IKEv2-peer-autoscript.rsc`. Also you may download [file](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-peer-autoscript.rsc) manually and upload it to router.
+2. Import script `/import IKEv2-peer-autoscript.rsc`. You may also copy content of [this page](https://raw.githubusercontent.com/mikrotik-user/IPSec-IKE-v2-auto-script/main/IKEv2-peer-autoscript.rsc) and paste to a newly created script using GUI.
+3. Run script via CLI. `/system script run IKEv2-peer`
+_**IMPORTANT: Script won't work if you run it via GUI.**_
+4. Choose _**1. Create peer**_ by typing "1"
+5. Follow instructions on CLI
 
 **How to setup strongswan client on mikrotik router.**
 1. Download "Mikrotik-to-Strongswan.rsc" on your mikrotik router  
