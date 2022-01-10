@@ -1,5 +1,5 @@
 /system script
-add dont-require-permissions=no name=script1 owner=admin policy=\
+add dont-require-permissions=no name=IKEv2 owner=admin policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=":\
     local variant\r\
     \n:local Hostname\r\
